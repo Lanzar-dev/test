@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 // import imageCards from '../../data'
 // import FirstImg from '../../images/Rectangle 5 (1).svg'
 import {
@@ -9,21 +9,29 @@ import {
   CardSubTitle,
   Container,
   Wrapper,
-} from './CThreeElement'
+} from "./CThreeElement";
+import DOMPurify from "dompurify";
 
-const CardThree = ({ img, subtitle, desc }) => {
+const CardThree = ({ img, subtitle, desc, date }) => {
+  // dangerouslySetInnerHTML={{
+  //               __html: DOMPurify.sanitize(coin.description?.en),
+  //             }}
   return (
     <Container>
       <Wrapper>
-        <CardImage src={img} alt='' />
+        <CardImage src={img} alt="" />
         <CardInfo>
           <CardSubTitle>{subtitle}</CardSubTitle>
-          <CardDesc>{desc}</CardDesc>
-          <CardDate>1 hour ago</CardDate>
+          <CardDesc
+            dangerouslySetInnerHTML={{
+              __html: DOMPurify.sanitize(desc),
+            }}
+          ></CardDesc>
+          <CardDate>{date}</CardDate>
         </CardInfo>
       </Wrapper>
     </Container>
-  )
-}
+  );
+};
 
-export default CardThree
+export default CardThree;

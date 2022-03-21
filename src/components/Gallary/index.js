@@ -1,7 +1,7 @@
-import React from 'react'
-import { photoCards } from '../../data'
-import CardThree from '../CardThree'
-import { Container, Wrapper } from './GallaryElement'
+import React from "react";
+import { photoCards } from "../../data";
+import CardThree from "../CardThree";
+import { Container, Wrapper } from "./GallaryElement";
 
 const Gallary = () => {
   return (
@@ -17,7 +17,7 @@ const Gallary = () => {
         ))}
       </Wrapper>
     </Container>
-  )
-}
+  );
+};
 
-export default Gallary
+export default Gallary;

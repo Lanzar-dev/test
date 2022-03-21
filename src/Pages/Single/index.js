@@ -1,6 +1,7 @@
-import React from 'react'
-import PostImg from '../../images/Rectangle 49.svg'
-import Gallaryy from '../../components/Gallaryy'
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import PostImg from "../../images/Rectangle 49.svg";
+import Gallaryy from "../../components/Gallaryy";
 import {
   CalenderIcon,
   CommentSection,
@@ -43,16 +44,34 @@ import {
   TSTitle,
   TCGallaryWrapper,
   JDForm,
-} from './SingleElement'
+} from "./SingleElement";
+import axios from "axios";
+import DOMPurify from "dompurify";
 
 const SinglePost = () => {
+  const [singlePost, setSinglePost] = useState([]);
+  const { postId } = useParams();
+
+  useEffect(() => {
+    const fetchPost = async () => {
+      const res = await axios.get(
+        `https://brooksandblake.com/blogapis/wp-json/wp/v2/posts/${postId}`
+      );
+      setSinglePost(res.data);
+    };
+    fetchPost();
+  }, [postId]);
+
+  console.log(singlePost);
+
+  //optional chaining
+  //undefined
+  //conditional rendering
+
   return (
     <Container>
       <Wrapper>
-        <SPtitle>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vitae
-          iaculis nisi.
-        </SPtitle>
+        <SPtitle>{singlePost?.title?.rendered}</SPtitle>
         <ShareWrapper>
           <SWtext>Share This Post:</SWtext>
           <FacebookIcon />
@@ -60,39 +79,21 @@ const SinglePost = () => {
           <WhatsAppIcon />
           <LinkedInIcon />
         </ShareWrapper>
-        <SPimage src={PostImg} alt='post' />
+        <SPimage src={singlePost.jetpack_featured_media_url} alt="post" />
         <SPimgdesc>Financial Writer</SPimgdesc>
         <SPimgdetails>
           <ContactIcon />
           <ImgDetailsText>Solomon James</ImgDetailsText>
           <CalenderIcon />
-          <ImgDetailsText>1 March 2022</ImgDetailsText>
+          <ImgDetailsText>{singlePost.date}</ImgDetailsText>
           <TimeIcon />
           <ImgDetailsText>6 mins Read</ImgDetailsText>
         </SPimgdetails>
-        <SPDescription>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vitae
-          iaculis nisi. Praesent varius diam nisi, sit amet mollis dolor
-          pharetra sit amet. Suspendisse porttitor viverra nunc nec ultrices.
-          Nam venenatis quis massa at tempus. Suspendisse pretium metus magna,
-          et interdum dolor gravida luctus. Fusce maximus nisi eros, eu
-          malesuada ipsum ultrices vel. Nam in mi finibus, venenatis nisi
-          tempor, feugiat massa.
-          <br /> Quisque elementum, mi vel sodales luctus, est nunc egestas
-          tortor, eget accumsan sapien lorem vitae erat. Curabitur a ex iaculis,
-          posuere lorem at, varius urna. Nam iaculis viverra eros porta
-          fringilla. Nulla vulputate, orci eu convallis rutrum, metus felis
-          euismod quam, quis faucibus mauris dolor eget quam. Proin facilisis
-          erat nunc, quis placerat erat tempor ut. Vestibulum fermentum a ligula
-          id faucibus.
-          <br /> Pellentesque maximus ipsum nunc, eleifend congue nisl faucibus
-          ut. Nulla ultricies augue ut viverra congue. Maecenas arcu metus,
-          posuere sed orci ut, convallis viverra eros. Proin in neque nisi.
-          Proin eu nunc fringilla, dapibus nisi nec, pretium felis. Sed aliquam
-          dui est, auctor egestas turpis dictum a. Donec placerat eu orci eget
-          cursus. Mauris sodales iaculis mauris et feugiat. In aliquam mi
-          lacinia massa egestas rutrum.
-        </SPDescription>
+        <SPDescription
+          dangerouslySetInnerHTML={{
+            __html: DOMPurify.sanitize(singlePost?.content?.rendered),
+          }}
+        ></SPDescription>
         <RCWrapper>
           <RCTitle>Reader Comments</RCTitle>
           <CommentSection>
@@ -135,15 +136,15 @@ const SinglePost = () => {
               <JDText>Join the discussion</JDText>
               <JDForm>
                 <JDTextarea
-                  row='5'
-                  placeholder='Write your comment'
-                  name='user_message'
+                  row="5"
+                  placeholder="Write your comment"
+                  name="user_message"
                 />
                 <JDInputField>
                   <JDLabel>Your Name:</JDLabel>
-                  <JDInput type='text' placeholder='' name='user_name' />
+                  <JDInput type="text" placeholder="" name="user_name" />
                   <JDLabel>Email Address:</JDLabel>
-                  <JDInput type='email' placeholder='' name='email' />
+                  <JDInput type="email" placeholder="" name="email" />
                 </JDInputField>
                 <JDButton>Submit</JDButton>
               </JDForm>
@@ -158,7 +159,7 @@ const SinglePost = () => {
         </TSWrapper>
       </Wrapper>
     </Container>
-  )
-}
+  );
+};
 
-export default SinglePost
+export default SinglePost;

@@ -1,7 +1,7 @@
-import React from 'react'
-import { SPphotoCards } from '../../data'
-import CardThree from '../CardThree'
-import { Container, Wrapper } from './GallaryElement'
+import React from "react";
+import { SPphotoCards } from "../../data";
+import CardThree from "../CardThree";
+import { Container, Wrapper } from "./GallaryElement";
 
 const Gallaryy = () => {
   return (
@@ -12,7 +12,7 @@ const Gallaryy = () => {
         ))}
       </Wrapper>
     </Container>
-  )
-}
+  );
+};
 
-export default Gallaryy
+export default Gallaryy;
